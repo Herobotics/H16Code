@@ -7,6 +7,8 @@ package frc.robot;
 import java.nio.channels.Channel;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -27,6 +29,9 @@ public class Robot extends TimedRobot {
   MotorController m_frontRight = new VictorSP(2);
   MotorController m_rearRight = new VictorSP(3);
   MotorControllerGroup m_right = new MotorControllerGroup(m_frontRight, m_rearRight);
+
+  Solenoid shiftSolenoidR = new Solenoid(PneumaticsModuleType.REVPH, 0);
+  Solenoid shiftSolenoidL = new Solenoid(PneumaticsModuleType.REVPH, 1);
 
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
