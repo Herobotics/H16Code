@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class. Runs the motors with
@@ -35,7 +36,8 @@ public class Robot extends TimedRobot {
 
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
-
+ JoystickButton Shifter = new JoystickButton(m_stick,1);
+ 
   @Override
   public void robotInit() {
     // We need to invert one side of the drivetrain so that positive voltages
@@ -51,5 +53,6 @@ public class Robot extends TimedRobot {
     // and backward, and the X turns left and right.
     m_drive.arcadeDrive(-m_stick.getY(), m_stick.getX()); 
     //System.out.format("This is get Y: %d This is get X:%d", -m_stick.getY(), m_stick.getX());
-  }
+ if(m_stick.getRawButtonPressed(1)) {shiftSolenoidL.toggle();}
+}
 }
