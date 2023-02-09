@@ -54,11 +54,16 @@ public class Robot extends TimedRobot {
     // and backward, and the X turns left and right.
     double Yval = -m_stick.getY();
     double Xval = m_stick.getX();
-    if(m_stick.getRawButtonPressed(2)) {Yval = Yval * -1;}
-    if(m_stick.getRawButtonPressed(2)) {Xval = Xval * -1;}
+    if(m_stick.getRawButtonPressed(2)) {
+      Yval = Yval * -1;
+      Xval = Xval * -1;
+    } 
     m_drive.arcadeDrive(Yval, Xval); 
     
     //System.out.format("This is get Y: %d This is get X:%d", -m_stick.getY(), m_stick.getX());
- if(m_stick.getRawButtonPressed(1)) {shiftSolenoidL.toggle();}
-}
+ if(m_stick.getRawButtonPressed(1)) {
+  shiftSolenoidL.toggle();
+  shiftSolenoidR.toggle();  
+    }
+  }
 }
