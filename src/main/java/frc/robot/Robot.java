@@ -31,8 +31,8 @@ public class Robot extends TimedRobot {
   MotorController m_rearRight = new VictorSP(3);
   MotorControllerGroup m_right = new MotorControllerGroup(m_frontRight, m_rearRight);
 
-  Solenoid shiftSolenoidR = new Solenoid(PneumaticsModuleType.REVPH, 0);
-  Solenoid shiftSolenoidL = new Solenoid(PneumaticsModuleType.REVPH, 1);
+  Solenoid shiftSolenoidR = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+  Solenoid shiftSolenoidL = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
 
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
