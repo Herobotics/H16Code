@@ -36,8 +36,8 @@ public class Robot extends TimedRobot {
 
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
- 
- 
+  public double driveScale = 0.75;
+  
   @Override
   public void robotInit() {
     // We need to invert one side of the drivetrain so that positive voltages
@@ -51,17 +51,16 @@ public class Robot extends TimedRobot {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
-    double stickYval = -m_stick.getY();
-    double stickXval = m_stick.getX();
     if(m_stick.getRawButtonPressed(GamePad.Button.B)){
-      stickYval = stickYval * -1;
-      stickXval = stickXval * -1; 
+      driveScale = driveScale * -1;
     }
+    double stickYval = -m_stick.getY() * driveScale;
+    double stickXval = m_stick.getX() * driveScale;
     m_drive.arcadeDrive(stickYval, stickXval);
     //System.out.format("This is get Y: %d This is get X:%d", -m_stick.getY(), m_stick.getX());
  if(m_stick.getRawButtonPressed(GamePad.Button.A)) {
   shiftSolenoidL.toggle();
   shiftSolenoidR.toggle(); 
-}
-}
+    }
+  }
 }
