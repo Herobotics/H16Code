@@ -36,8 +36,7 @@ public class Robot extends TimedRobot {
 
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
- JoystickButton Shifter = new JoystickButton(m_stick,GamePad.Button.A);
- JoystickButton DrvInverter = new JoystickButton(m_stick,GamePad.Button.B);
+ 
  
   @Override
   public void robotInit() {
@@ -52,13 +51,13 @@ public class Robot extends TimedRobot {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
-    double Yval = -m_stick.getY();
-    double Xval = m_stick.getX();
+    double stickYval = -m_stick.getY();
+    double stickXval = m_stick.getX();
     if(m_stick.getRawButtonPressed(GamePad.Button.B)){
-      Yval = Yval * -1;
-      Xval = Xval * -1;
-    m_drive.arcadeDrive(Yval, Xval); 
+      stickYval = stickYval * -1;
+      stickXval = stickXval * -1; 
     }
+    m_drive.arcadeDrive(stickYval, stickXval);
     //System.out.format("This is get Y: %d This is get X:%d", -m_stick.getY(), m_stick.getX());
  if(m_stick.getRawButtonPressed(GamePad.Button.A)) {
   shiftSolenoidL.toggle();
