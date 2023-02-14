@@ -45,6 +45,19 @@ public class Robot extends TimedRobot {
     // gearbox is constructed, you might have to invert the left side instead.
     m_right.setInverted(true);
   }
+  @Override
+    public void autonomousInit() {
+
+    }
+
+  /**
+   * This function is called periodically during autonomous
+   */
+  @Override
+  public void autonomousPeriodic() {
+    m_drive.arcadeDrive(1, 0);
+    
+    }
 
   @Override
   public void teleopPeriodic() {
