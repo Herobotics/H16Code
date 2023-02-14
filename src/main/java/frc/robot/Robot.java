@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class. Runs the motors with
- * arcade steering.
+ * arcade steering. 
  */
 public class Robot extends TimedRobot {
   MotorController m_frontLeft = new VictorSP(0);
