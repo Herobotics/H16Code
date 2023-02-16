@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    m_drive.arcadeDrive(1, 0);
+    m_drive.arcadeDrive(.5, 0);
     
     }
 
