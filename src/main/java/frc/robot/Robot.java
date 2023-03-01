@@ -5,6 +5,7 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+
 
 
 /**
@@ -34,6 +36,9 @@ public class Robot extends TimedRobot {
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
   public double driveScale = 0.75;
+
+  Encoder encoderR = new Encoder(0,1);
+  Encoder encoderL = new Encoder(2,3);
   
   @Override
   public void robotInit() {
