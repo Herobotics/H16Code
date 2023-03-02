@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
   public double driveScale = 0.75;
-
+ 
   Encoder encoderR = new Encoder(0,1);
   Encoder encoderL = new Encoder(2,3);
   
