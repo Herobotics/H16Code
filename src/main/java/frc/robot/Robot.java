@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
       encoderR.reset();
      encoderL.reset();
+     encoderR.setDistancePerPulse(6);
     }
 
   /**
@@ -58,8 +59,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    System.out.println(encoderR.getDistance());
-    m_drive.arcadeDrive(0.5, 0);
+    if (encoderR.getDistance()<=60) {
+      m_drive.arcadeDrive(0.5, 0);
+      
+    } else {
+      m_drive.arcadeDrive(0, 0);
+    }
+    //System.out.println(encoderR.getDistance());
+    //m_drive.arcadeDrive(0.5, 0);
+
     
     }
 
