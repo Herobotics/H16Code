@@ -30,15 +30,15 @@ public class Robot extends TimedRobot {
   MotorController m_rearRight = new VictorSP(3);
   MotorControllerGroup m_right = new MotorControllerGroup(m_frontRight, m_rearRight);
 
-  Solenoid shiftSolenoidR = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+  Solenoid shiftSolenoidR = new Solenoid(PneumaticsModuleType.CTREPCM,  0);
   Solenoid shiftSolenoidL = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
 
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
   public double driveScale = 0.75;
  
-  Encoder encoderR = new Encoder(0,1);
-  Encoder encoderL = new Encoder(2,3);
+  Encoder encoderR = new Encoder(1,0);
+  Encoder encoderL = new Encoder(3,2);
   
   @Override
   public void robotInit() {
@@ -49,8 +49,9 @@ public class Robot extends TimedRobot {
   }
   @Override
     public void autonomousInit() {
-      encoderR.reset();
+     encoderR.reset();
      encoderL.reset();
+     encoderL.setDistancePerPulse(6);
      encoderR.setDistancePerPulse(6);
     }
 
@@ -59,7 +60,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    if (encoderR.getDistance()<=60) {
+    if (encoderL.getDistance()<=60 || encoderR.getDistance()<=60) {
       m_drive.arcadeDrive(0.5, 0);
       
     } else {
