@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
   public double driveScale = 0.75;
  
   Encoder encoderR = new Encoder(1,0);
-  Encoder encoderL = new Encoder(3,2);
+  Encoder encoderL = new Encoder(3,2,false,Encoder.EncodingType.k2X);
   
   @Override
   public void robotInit() {
@@ -51,6 +51,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
      encoderR.reset();
      encoderL.reset();
+     encoderL.setDistancePerPulse(2);
+     encoderR.setDistancePerPulse(2);
 
     }
 
@@ -59,7 +61,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() { 
-    System.out.println(encoderL.getDistance());
+    System.out.println(encoderL.getDistance()+" L");
+    System.out.println(encoderR.getDistance()+" R");
     if (encoderL.getDistance()<=60 || encoderR.getDistance()<=60) {
       m_drive.arcadeDrive(0.5, 0);
       
