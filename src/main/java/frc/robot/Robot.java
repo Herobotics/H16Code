@@ -37,8 +37,8 @@ public class Robot extends TimedRobot {
   private final Joystick m_stick = new Joystick(0);
   public double driveScale = 0.75;
  
-  Encoder encoderR = new Encoder(1,0);
-  Encoder encoderL = new Encoder(3,2,false,Encoder.EncodingType.k2X);
+  public Encoder encoderR = new Encoder(0,1,false,Encoder.EncodingType.k2X);
+  public Encoder encoderL = new Encoder(2,3, true, Encoder.EncodingType.k2X);
   
   @Override
   public void robotInit() {
@@ -49,10 +49,10 @@ public class Robot extends TimedRobot {
   }
   @Override
     public void autonomousInit() {
+     encoderL.setDistancePerPulse(1000);
+     encoderR.setDistancePerPulse(1000);
      encoderR.reset();
      encoderL.reset();
-     encoderL.setDistancePerPulse(2);
-     encoderR.setDistancePerPulse(2);
 
     }
 
@@ -91,6 +91,8 @@ public class Robot extends TimedRobot {
   shiftSolenoidL.toggle();
   shiftSolenoidR.toggle(); 
     }
-    System.out.println(stickYval);
+    //System.out.println(stickYval);
+    System.out.println(encoderL.getDistance()+" L");
+    System.out.println(encoderR.getDistance()+" R");
   }
 }
