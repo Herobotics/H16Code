@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -38,12 +39,15 @@ public class Robot extends TimedRobot {
 
   Solenoid clawSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
   Solenoid armSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 3);
+
+  Timer timer = new Timer();
+ 
   
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
   public double driveScale = 0.75;
- public static double armScale = 0.2;
-MotorController armMotor = new VictorSP(4);
+  public static double armScale = 0.2;
+  MotorController armMotor = new VictorSP(4);
 
   public Encoder encoderR = new Encoder(0,1,false,Encoder.EncodingType.k2X);
   public Encoder encoderL = new Encoder(2,3, true, Encoder.EncodingType.k2X);
@@ -57,28 +61,38 @@ MotorController armMotor = new VictorSP(4);
   }
   @Override
     public void autonomousInit() {
-     encoderL.setDistancePerPulse(1000);
-     encoderR.setDistancePerPulse(1000);
+     timer.start();
+     encoderL.setDistancePerPulse(1.0/40.0);
+     encoderR.setDistancePerPulse(1.0/40.0);
      encoderR.reset();
      encoderL.reset();
 
     }
 
+  
   /**
    * This function is called periodically during autonomous
    */
   @Override
-  public void autonomousPeriodic() { 
+  public void autonomousPeriodic() {
+    if(timer.get() >= 5.0) {
+    encoderL.reset();
+    encoderR.reset();
     System.out.println(encoderL.getDistance()+" L");
     System.out.println(encoderR.getDistance()+" R");
     if (encoderL.getDistance()<=60 || encoderR.getDistance()<=60) {
-      m_drive.arcadeDrive(0.5, 0);
+      m_drive.arcadeDrive(0., 0);
       
     } else {
       m_drive.arcadeDrive(0, 0);
     }
+   
+    }
+
+  
+    
     //System.out.println(encoderR.getDistance());
-    //m_drive.arcadeDrive(0.5, 0);
+    //m_drive.arcadeDrive(0.,) 0);
 
     
     }
