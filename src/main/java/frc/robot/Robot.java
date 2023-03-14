@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -43,7 +44,9 @@ public class Robot extends TimedRobot {
 
   Timer timer = new Timer();
  
-  
+   DigitalInput gearSwitch = new DigitalInput(0);
+
+
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
   public double driveScale = 0.75;
@@ -113,18 +116,24 @@ public class Robot extends TimedRobot {
     if(m_stick.getRawButtonPressed(GamePad.Button.A)){
       armSolenoid.toggle();
     }
+
+    double desiredArmValue = 0.0;
     if(m_stick.getRawButtonPressed(GamePad.Button.RIGHT_PRESS)){
-      armMotor.set(armScale);
+      desiredArmValue = armScale;
     }
     if(m_stick.getRawButtonPressed(GamePad.Button.LEFT_PRESS)){
-      armMotor.set(armScale*-1.0);
+      desiredArmValue = armScale*-1;
     }
     if(m_stick.getRawButtonPressed(GamePad.Button.LEFT_PRESS)&&m_stick.getRawButtonPressed(GamePad.Button.RIGHT_PRESS)){
-      armMotor.set(0.0);
+      desiredArmValue = 0.0;
     }
-    if(!m_stick.getRawButtonPressed(GamePad.Button.LEFT_PRESS)&&!m_stick.getRawButtonPressed(GamePad.Button.RIGHT_PRESS)){
-      armMotor.set(0.0);
+    if(gearSwitch.get()){
+      desiredArmValue = 0.0;
+      /* Update this when we understand what direction the values indicate */
     }
+
+    
+  armMotor.set(desiredArmValue);
     double stickYval = -m_stick.getY() * driveScale;
     double stickXval = m_stick.getX() * driveScale;
     m_drive.arcadeDrive(stickYval, stickXval);
@@ -133,6 +142,7 @@ public class Robot extends TimedRobot {
   shiftSolenoidL.toggle();
   shiftSolenoidR.toggle(); 
     }
+
     //System.out.println(stickYval);
     System.out.println(encoderL.getDistance()+" L");
     System.out.println(encoderR.getDistance()+" R");
