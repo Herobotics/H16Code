@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -42,19 +44,29 @@ public class Robot extends TimedRobot {
   Solenoid clawSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
   Solenoid armSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 3);
 
+  private static final String kDefaultAuto = "Default";
+  private static final String kCustomAuto1 = "Auto1";
+  private String m_autoSelected;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
   Timer timer = new Timer();
  
-   DigitalInput gearSwitch = new DigitalInput(0);
+   DigitalInput gearSwitch = new DigitalInput(5);
 
 
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
   public double driveScale = 0.75;
   public static double armScale = 0.2;
+  static double ENCODER_SCALE_FACTOR = 1.0/40.0;
+  double distanceInAuto = 20;
+
   MotorController armMotor = new VictorSP(4);
 
   public Encoder encoderR = new Encoder(0,1,false,Encoder.EncodingType.k2X);
   public Encoder encoderL = new Encoder(2,3, true, Encoder.EncodingType.k2X);
+
+
   
   @Override
   public void robotInit() {
@@ -63,12 +75,19 @@ public class Robot extends TimedRobot {
     // gearbox is constructed, you might have to invert the left side instead.
     m_right.setInverted(true);
     CameraServer.startAutomaticCapture();
+    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    m_chooser.addOption("Auto1", kCustomAuto1);
+    SmartDashboard.putData("Auto choices", m_chooser);
   }
+  
   @Override
     public void autonomousInit() {
+      m_autoSelected = m_chooser.getSelected();
+    System.out.println("Auto selected: " + m_autoSelected);
      timer.start();
-     encoderL.setDistancePerPulse(1.0/40.0);
-     encoderR.setDistancePerPulse(1.0/40.0);
+     encoderL.setDistancePerPulse(ENCODER_SCALE_FACTOR);
+     encoderR.setDistancePerPulse(ENCODER_SCALE_FACTOR);
+     encoderR.setReverseDirection(true);
      encoderR.reset();
      encoderL.reset();
 
@@ -80,19 +99,26 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    if(timer.get() >= 5.0) {
-    encoderL.reset();
-    encoderR.reset();
-    System.out.println(encoderL.getDistance()+" L");
-    System.out.println(encoderR.getDistance()+" R");
-    if (encoderL.getDistance()<=60 || encoderR.getDistance()<=60) {
-      m_drive.arcadeDrive(0., 0);
+    switch (m_autoSelected) {
+      case kCustomAuto1:
+        // Put custom auto code here
+        break;
+      case kDefaultAuto:
+      default:
+       if(timer.get() >= 5.0) {
+        System.out.println(encoderL.getDistance()+" L");
+        System.out.println(encoderR.getDistance()+" R");
+        if (encoderL.getDistance()<=distanceInAuto || encoderR.getDistance()<=distanceInAuto) {
+          m_drive.arcadeDrive(0.5, 0);
+          
+        } else {
+          m_drive.arcadeDrive(0, 0);
+        }
       
-    } else {
-      m_drive.arcadeDrive(0, 0);
+      }
+      break;
     }
-   
-    }
+    
 
   
     
