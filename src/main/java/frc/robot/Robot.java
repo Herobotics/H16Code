@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
 
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto1 = "Auto1";
+  private static final String kCustomAuto2 = "Auto2";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -77,6 +78,7 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("Auto1", kCustomAuto1);
+    m_chooser.addOption("Auto2", kCustomAuto2);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
   
@@ -100,37 +102,36 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
+      case kCustomAuto2:
+        // Put custom auto (number 2) code here
+        distanceInAuto = 10;
+        
+        break;
+      
       case kCustomAuto1:
         // Put custom auto code here
-        distanceInAuto = 7;
-        if(timer.get() >= 5.0) {
-          System.out.println(encoderL.getDistance()+" L");
-          System.out.println(encoderR.getDistance()+" R");
-          if (encoderL.getDistance()<=distanceInAuto || encoderR.getDistance()<=distanceInAuto) {
-            m_drive.arcadeDrive(0.5, 0);
-            
-          } else {
-            m_drive.arcadeDrive(0, 0);
-          }
+        distanceInAuto = 5;
         
-        }
         break;
+      
+      
       case kDefaultAuto:
       default:
       distanceInAuto = 20;
-      
-       if(timer.get() >= 5.0) {
-        System.out.println(encoderL.getDistance()+" L");
-        System.out.println(encoderR.getDistance()+" R");
-        if (encoderL.getDistance()<=distanceInAuto || encoderR.getDistance()<=distanceInAuto) {
-          m_drive.arcadeDrive(0.5, 0);
-          
-        } else {
-          m_drive.arcadeDrive(0, 0);
-        }
-      
-      }
+
       break;
+      
+    }
+    if(timer.get() >= 2.0) {
+      System.out.println(encoderL.getDistance()+" L");
+      System.out.println(encoderR.getDistance()+" R");
+      if (encoderL.getDistance()<=distanceInAuto || encoderR.getDistance()<=distanceInAuto) {
+        m_drive.arcadeDrive(0.5, 0);
+        
+      } else {
+        m_drive.arcadeDrive(0, 0);
+      }
+    
     }
     
 
