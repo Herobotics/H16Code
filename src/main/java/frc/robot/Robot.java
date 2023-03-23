@@ -102,9 +102,23 @@ public class Robot extends TimedRobot {
     switch (m_autoSelected) {
       case kCustomAuto1:
         // Put custom auto code here
+        distanceInAuto = 7;
+        if(timer.get() >= 5.0) {
+          System.out.println(encoderL.getDistance()+" L");
+          System.out.println(encoderR.getDistance()+" R");
+          if (encoderL.getDistance()<=distanceInAuto || encoderR.getDistance()<=distanceInAuto) {
+            m_drive.arcadeDrive(0.5, 0);
+            
+          } else {
+            m_drive.arcadeDrive(0, 0);
+          }
+        
+        }
         break;
       case kDefaultAuto:
       default:
+      distanceInAuto = 20;
+      
        if(timer.get() >= 5.0) {
         System.out.println(encoderL.getDistance()+" L");
         System.out.println(encoderR.getDistance()+" R");
