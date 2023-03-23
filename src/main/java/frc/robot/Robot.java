@@ -1,6 +1,8 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+// if reading this in the future dont use any of this unless you want a failure of a robot 
+// anyways this was written in march of 2023 so hello future
 
 package frc.robot;
 
