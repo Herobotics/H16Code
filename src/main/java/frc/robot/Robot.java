@@ -33,14 +33,12 @@ public class Robot extends TimedRobot {
   MotorController m_rearLeft = new VictorSP(1);
   MotorControllerGroup m_left = new MotorControllerGroup(m_frontLeft, m_rearLeft);
 
-
-
   MotorController m_frontRight = new VictorSP(2);
   MotorController m_rearRight = new VictorSP(3);
   MotorControllerGroup m_right = new MotorControllerGroup(m_frontRight, m_rearRight);
 
-  Solenoid shiftSolenoidR = new Solenoid(PneumaticsModuleType.CTREPCM,  0);
-  Solenoid shiftSolenoidL = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
+
+  Solenoid shiftSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
 
 
   Solenoid clawSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
@@ -182,8 +180,7 @@ public class Robot extends TimedRobot {
     m_drive.arcadeDrive(stickYval, stickXval);
     //System.out.format("This is get Y: %d This is get X:%d", -m_stick.getY(), m_stick.getX());
  if(m_stick.getRawButtonPressed(GamePad.Button.X)) {
-  shiftSolenoidL.toggle();
-  shiftSolenoidR.toggle(); 
+  shiftSolenoid.toggle();
     }
 
     //System.out.println(stickYval);
