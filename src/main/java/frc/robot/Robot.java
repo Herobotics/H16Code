@@ -52,8 +52,8 @@ public class Robot extends TimedRobot {
 
   Timer timer = new Timer();
  
-   DigitalInput gearSwitch = new DigitalInput(5);
-
+  DigitalInput storedLimitSwitch = new DigitalInput(5);
+  DigitalInput extendedLimitSwitch = new DigitalInput(4);
 
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
@@ -75,6 +75,7 @@ public class Robot extends TimedRobot {
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
     m_right.setInverted(true);
+    CameraServer.startAutomaticCapture();
     CameraServer.startAutomaticCapture();
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("Auto1", kCustomAuto1);
@@ -164,23 +165,31 @@ public class Robot extends TimedRobot {
     if (m_stick.getRawButtonPressed(GamePad.Button.RB)){
       armScale+= 0.01;
     }
+    System.out.println(armScale);
     double desiredArmValue = 0.0;
     if(m_stick.getRawButtonPressed(GamePad.Button.RIGHT_PRESS)){
       desiredArmValue = armScale;
     }
-    if(m_stick.getRawButtonPressed(GamePad.Button.LEFT_PRESS)){
+    else if(m_stick.getRawButtonPressed(GamePad.Button.LEFT_PRESS)){
       desiredArmValue = armScale*-1;
     }
-    if(m_stick.getRawButtonPressed(GamePad.Button.LEFT_PRESS)&&m_stick.getRawButtonPressed(GamePad.Button.RIGHT_PRESS)){
+    else {
       desiredArmValue = 0.0;
     }
-    if(gearSwitch.get()){
+    if(!storedLimitSwitch.get()){
       desiredArmValue = 0.0;
+      System.out.println("Stored Limit switch pressed!");
       /* Update this when we understand what direction the values indicate */
     }
+    if(!extendedLimitSwitch.get()){
+      desiredArmValue = 0.0;
+      System.out.println("Extended Limit switch pressed!");
+      /* Update this when we understand what direction the values indicate */
+    }
+    System.out.println(desiredArmValue);
 
-    
-  armMotor.set(desiredArmValue);
+    //armMotor.set(desiredArmValue);
+
     double stickYval = -m_stick.getY() * driveScale;
     double stickXval = m_stick.getX() * driveScale;
     m_drive.arcadeDrive(stickYval, stickXval);
