@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
   public double driveScale = 0.75;
-  public static double armScale = 0.2;
+  public static double armScale = 0.01;
   static double ENCODER_SCALE_FACTOR = 1.0/40.0;
   double distanceInAuto = 20;
 
@@ -158,6 +158,12 @@ public class Robot extends TimedRobot {
       armSolenoid.toggle();
     }
 
+    if (m_stick.getRawButtonPressed(GamePad.Button.LB)){
+      armScale-= 0.01;
+    }
+    if (m_stick.getRawButtonPressed(GamePad.Button.RB)){
+      armScale+= 0.01;
+    }
     double desiredArmValue = 0.0;
     if(m_stick.getRawButtonPressed(GamePad.Button.RIGHT_PRESS)){
       desiredArmValue = armScale;
