@@ -38,9 +38,9 @@ public class Robot extends TimedRobot {
   MotorControllerGroup m_right = new MotorControllerGroup(m_frontRight, m_rearRight);
 
 
-  Solenoid shiftSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+  Solenoid shiftSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
   Solenoid clawSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
-  Solenoid armSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
+  Solenoid armSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
 
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto1 = "Auto1";
@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
   public double driveScale = 0.75;
-  public static double armScale = 0.40;
+  public static double armScale = 0.30;
   static double ENCODER_SCALE_FACTOR = 1.0/40.0;
   double distanceInAuto = 20;
 
