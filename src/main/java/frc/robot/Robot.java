@@ -39,10 +39,8 @@ public class Robot extends TimedRobot {
 
 
   Solenoid shiftSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
-
-
   Solenoid clawSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
-  Solenoid armSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 3);
+  Solenoid armSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
 
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto1 = "Auto1";
@@ -58,7 +56,7 @@ public class Robot extends TimedRobot {
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final Joystick m_stick = new Joystick(0);
   public double driveScale = 0.75;
-  public static double armScale = 0.01;
+  public static double armScale = 0.40;
   static double ENCODER_SCALE_FACTOR = 1.0/40.0;
   double distanceInAuto = 20;
 
@@ -105,14 +103,13 @@ public class Robot extends TimedRobot {
     switch (m_autoSelected) {
       case kCustomAuto2:
         // Put custom auto (number 2) code here
-        distanceInAuto = 10;
+        distanceInAuto = 40;
         
         break;
       
       case kCustomAuto1:
         // Put custom auto code here
-        distanceInAuto = 5;
-        
+        distanceInAuto = 60;
         break;
       
       
@@ -159,42 +156,43 @@ public class Robot extends TimedRobot {
       armSolenoid.toggle();
     }
 
-    if (m_stick.getRawButtonPressed(GamePad.Button.LB)){
-      armScale-= 0.01;
+    if (m_stick.getRawButtonPressed(GamePad.Button.X)){
+      armScale -= 0.02;
     }
-    if (m_stick.getRawButtonPressed(GamePad.Button.RB)){
-      armScale+= 0.01;
+    if (m_stick.getRawButtonPressed(GamePad.Button.Y)){
+      armScale += 0.02;
     }
     System.out.println(armScale);
     double desiredArmValue = 0.0;
-    if(m_stick.getRawButtonPressed(GamePad.Button.RIGHT_PRESS)){
-      desiredArmValue = armScale;
+    if(m_stick.getRawButton(GamePad.Button.RB)){
+      // GOES TO EXTENDED POSITION
+      desiredArmValue = armScale; // POSTIVE 
     }
-    else if(m_stick.getRawButtonPressed(GamePad.Button.LEFT_PRESS)){
+    else if(m_stick.getRawButton(GamePad.Button.LB)){
+      // GOES TO STORED POSITION
       desiredArmValue = armScale*-1;
     }
     else {
       desiredArmValue = 0.0;
     }
     if(!storedLimitSwitch.get()){
-      desiredArmValue = 0.0;
+      desiredArmValue = Math.max(0.0, desiredArmValue);
       System.out.println("Stored Limit switch pressed!");
       /* Update this when we understand what direction the values indicate */
     }
     if(!extendedLimitSwitch.get()){
-      desiredArmValue = 0.0;
+      desiredArmValue = Math.max(0.0, desiredArmValue);
       System.out.println("Extended Limit switch pressed!");
       /* Update this when we understand what direction the values indicate */
     }
     System.out.println(desiredArmValue);
-
-    //armMotor.set(desiredArmValue);
+    armMotor.set(desiredArmValue);
 
     double stickYval = -m_stick.getY() * driveScale;
     double stickXval = m_stick.getX() * driveScale;
     m_drive.arcadeDrive(stickYval, stickXval);
     //System.out.format("This is get Y: %d This is get X:%d", -m_stick.getY(), m_stick.getX());
- if(m_stick.getRawButtonPressed(GamePad.Button.X)) {
+ if(m_stick.getRawButtonPressed(GamePad.Button.START)) {
   shiftSolenoid.toggle();
     }
 
