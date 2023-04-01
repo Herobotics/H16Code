@@ -116,7 +116,7 @@ public class Robot extends TimedRobot {
       
       case kDefaultAuto:
       default:
-      distanceInAuto = 20;
+      distanceInAuto = 40;
 
       break;
       
@@ -147,7 +147,7 @@ public class Robot extends TimedRobot {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
-    if(m_stick.getRawButtonPressed(GamePad.Button.BACK) || m_stick2.getRawButtonPressed(GamePad.Button.BACK)){
+    if(m_stick.getRawButtonPressed(GamePad.Button.BACK) || m_stick2.getRawButtonPressed(GamePad.Button.X)){
       driveScale = driveScale * -1;
     }
     if(m_stick.getRawButtonPressed(GamePad.Button.B) || m_stick2.getRawButtonPressed(GamePad.Button.B)){
@@ -157,7 +157,7 @@ public class Robot extends TimedRobot {
       armSolenoid.toggle();
     }
 
-    if (m_stick.getRawButtonPressed(GamePad.Button.X) || m_stick2.getRawButtonPressed(GamePad.Button.X)){
+    if (m_stick.getRawButtonPressed(GamePad.Button.X) || m_stick2.getRawButtonPressed(GamePad.Button.START)){
       armScale -= 0.02;
     }
     if (m_stick.getRawButtonPressed(GamePad.Button.Y) || m_stick2.getRawButtonPressed(GamePad.Button.Y)){
@@ -165,7 +165,7 @@ public class Robot extends TimedRobot {
     }
     System.out.println(armScale);
     double desiredArmValue = 0.0;
-    if(m_stick.getRawButton(GamePad.Button.RB) || m_stick2.getRawButton(GamePad.Button.RB)){
+    if(m_stick.getRawButton(GamePad.Button.RB) || m_stick2.getRawButton(GamePad.Button.BACK)){
       // GOES TO EXTENDED POSITION
       desiredArmValue = armScale; // POSTIVE 
     }
@@ -193,7 +193,7 @@ public class Robot extends TimedRobot {
     double stickXval = m_stick.getX() * driveScale;
     m_drive.arcadeDrive(stickYval, stickXval);
     //System.out.format("This is get Y: %d This is get X:%d", -m_stick.getY(), m_stick.getX());
- if(m_stick.getRawButtonPressed(GamePad.Button.START) || m_stick2.getRawButtonPressed(GamePad.Button.START)) {
+ if(m_stick.getRawButtonPressed(GamePad.Button.START) || m_stick2.getRawButtonPressed(GamePad.Button.Y)) {
   shiftSolenoid.toggle();
     }
 
