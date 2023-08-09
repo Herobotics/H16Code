@@ -160,12 +160,12 @@ public class Robot extends TimedRobot {
     if (m_stick.getRawButtonPressed(GamePad.Button.START) || m_stick2.getRawButtonPressed(GamePad.Button.START)){
       armScale -= 0.02;
     }
-    if (m_stick.getRawButtonPressed(GamePad.Button.Y) || m_stick2.getRawButtonPressed(GamePad.Button.Y)){
+    if (m_stick.getRawButtonPressed(GamePad.Button.BACK) || m_stick2.getRawButtonPressed(GamePad.Button.BACK)){
       armScale += 0.02;
     }
     System.out.println(armScale);
     double desiredArmValue = 0.0;
-    if(m_stick.getRawButton(GamePad.Button.BACK) || m_stick2.getRawButton(GamePad.Button.BACK)){
+    if(m_stick.getRawButton(GamePad.Button.RB) || m_stick2.getRawButton(GamePad.Button.RB)){
       // GOES TO EXTENDED POSITION
       desiredArmValue = armScale; // POSTIVE 
     }
