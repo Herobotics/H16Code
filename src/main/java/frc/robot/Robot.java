@@ -57,8 +57,10 @@ public class Robot extends TimedRobot {
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
   private final XboxController m_stick = new XboxController(0);
   public double driveScale = 0.75;
-  public static double ARM_UP_SCALE_FACTOR = 0.30;
+  public static double ARM_UP_SCALE_FACTOR = 0.40;
   public static double ARM_DOWN_SCALE_FACTOR = 0.10;
+  public static double DRIVE_FORWARDS_SPEED = 0.5;
+  public static double DRIVE_ROTATION_SPEED = 0.2;
   static double ENCODER_SCALE_FACTOR = 1.0/40.0;
   double distanceInAuto = 20;
 
@@ -191,8 +193,8 @@ public class Robot extends TimedRobot {
     System.out.println(desiredArmValue);
     armMotor.set(desiredArmValue);
 
-    double stickYval = m_stick.getLeftY() * driveScale;
-    double stickXval = -m_stick.getRightY() * driveScale;
+    double stickYval = m_stick.getLeftY() * driveScale * DRIVE_FORWARDS_SPEED;
+    double stickXval = -m_stick.getRightY() * driveScale * DRIVE_ROTATION_SPEED;
     m_drive.arcadeDrive(stickYval, stickXval);
     //System.out.format("This is get Y: %d This is get X:%d", -m_stick.getY(), m_stick.getX());
  if(m_stick.getRawButtonPressed(GamePad.Button.Y)) {
