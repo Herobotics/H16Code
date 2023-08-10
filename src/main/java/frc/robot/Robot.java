@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -54,8 +55,7 @@ public class Robot extends TimedRobot {
   DigitalInput extendedLimitSwitch = new DigitalInput(4);
 
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
-  private final Joystick m_stick = new Joystick(0);
-  private final Joystick m_stick2 = new Joystick(1);
+  private final XboxController m_stick = new XboxController(0);
   public double driveScale = 0.75;
   public static double ARM_UP_SCALE_FACTOR = 0.30;
   public static double ARM_DOWN_SCALE_FACTOR = 0.10;
@@ -149,13 +149,13 @@ public class Robot extends TimedRobot {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
-    if(m_stick.getRawButtonPressed(GamePad.Button.X) || m_stick2.getRawButtonPressed(GamePad.Button.X)){
+    if(m_stick.getRawButtonPressed(GamePad.Button.X)){
       driveScale = driveScale * -1;
     }
-    if(m_stick.getRawButtonPressed(GamePad.Button.B) || m_stick2.getRawButtonPressed(GamePad.Button.B)){
+    if(m_stick.getRawButtonPressed(GamePad.Button.B)){
       clawSolenoid.toggle();
     }
-    if(m_stick.getRawButtonPressed(GamePad.Button.A) || m_stick2.getRawButtonPressed(GamePad.Button.A)){
+    if(m_stick.getRawButtonPressed(GamePad.Button.A)){
       armSolenoid.toggle();
     }
 
@@ -167,11 +167,11 @@ public class Robot extends TimedRobot {
     // }
     // System.out.println(armScale);
     double desiredArmValue = 0.0;
-    if(m_stick.getRawButton(GamePad.Button.RB) || m_stick2.getRawButton(GamePad.Button.RB)){
+    if(m_stick.getRawButton(GamePad.Button.RB)){
       // GOES TO EXTENDED POSITION
       desiredArmValue = ARM_UP_SCALE_FACTOR; // POSTIVE 
     }
-    else if(m_stick.getRawButton(GamePad.Button.LB) || m_stick2.getRawButton(GamePad.Button.LB)){
+    else if(m_stick.getRawButton(GamePad.Button.LB)){
       // GOES TO STORED POSITION
       desiredArmValue = ARM_DOWN_SCALE_FACTOR*-1;
     }
@@ -191,11 +191,11 @@ public class Robot extends TimedRobot {
     System.out.println(desiredArmValue);
     armMotor.set(desiredArmValue);
 
-    double stickYval = -m_stick.getY() * driveScale;
-    double stickXval = m_stick.getX() * driveScale;
-    m_drive.arcadeDrive(stickYval, stickXval);
+    double stickYval = -m_stick.getLeftY() * driveScale;
+    double stickXval = m_stick.getRightY() * driveScale;
+    m_drive.tankDrive(stickYval, stickXval);
     //System.out.format("This is get Y: %d This is get X:%d", -m_stick.getY(), m_stick.getX());
- if(m_stick.getRawButtonPressed(GamePad.Button.Y) || m_stick2.getRawButtonPressed(GamePad.Button.Y)) {
+ if(m_stick.getRawButtonPressed(GamePad.Button.Y)) {
   shiftSolenoid.toggle();
     }
 
