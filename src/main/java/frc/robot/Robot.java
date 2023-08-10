@@ -57,7 +57,8 @@ public class Robot extends TimedRobot {
   private final Joystick m_stick = new Joystick(0);
   private final Joystick m_stick2 = new Joystick(1);
   public double driveScale = 0.75;
-  public static double armScale = 0.30;
+  public static double ARM_UP_SCALE_FACTOR = 0.30;
+  public static double ARM_DOWN_SCALE_FACTOR = 0.10;
   static double ENCODER_SCALE_FACTOR = 1.0/40.0;
   double distanceInAuto = 20;
 
@@ -144,6 +145,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
@@ -157,21 +159,21 @@ public class Robot extends TimedRobot {
       armSolenoid.toggle();
     }
 
-    if (m_stick.getRawButtonPressed(GamePad.Button.START) || m_stick2.getRawButtonPressed(GamePad.Button.START)){
-      armScale -= 0.02;
-    }
-    if (m_stick.getRawButtonPressed(GamePad.Button.BACK) || m_stick2.getRawButtonPressed(GamePad.Button.BACK)){
-      armScale += 0.02;
-    }
-    System.out.println(armScale);
+    // if (m_stick.getRawButtonPressed(GamePad.Button.START) || m_stick2.getRawButtonPressed(GamePad.Button.START)){
+    //   armScale -= 0.02;
+    // }
+    // if (m_stick.getRawButtonPressed(GamePad.Button.BACK) || m_stick2.getRawButtonPressed(GamePad.Button.BACK)){
+    //   armScale += 0.02;
+    // }
+    // System.out.println(armScale);
     double desiredArmValue = 0.0;
     if(m_stick.getRawButton(GamePad.Button.RB) || m_stick2.getRawButton(GamePad.Button.RB)){
       // GOES TO EXTENDED POSITION
-      desiredArmValue = armScale; // POSTIVE 
+      desiredArmValue = ARM_UP_SCALE_FACTOR; // POSTIVE 
     }
     else if(m_stick.getRawButton(GamePad.Button.LB) || m_stick2.getRawButton(GamePad.Button.LB)){
       // GOES TO STORED POSITION
-      desiredArmValue = armScale*-1;
+      desiredArmValue = ARM_DOWN_SCALE_FACTOR*-1;
     }
     else {
       desiredArmValue = 0.0;
