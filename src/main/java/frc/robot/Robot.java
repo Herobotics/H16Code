@@ -191,7 +191,7 @@ public class Robot extends TimedRobot {
     System.out.println(desiredArmValue);
     armMotor.set(desiredArmValue);
 
-    double stickYval = -m_stick.getLeftY() * driveScale;
+    double stickYval = m_stick.getLeftY() * driveScale;
     double stickXval = m_stick.getRightY() * driveScale;
     m_drive.tankDrive(stickYval, stickXval);
     //System.out.format("This is get Y: %d This is get X:%d", -m_stick.getY(), m_stick.getX());
