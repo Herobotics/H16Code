@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 
   Timer timer = new Timer();
  
-  DigitalInput storedLimitSwitch = new DigitalInput(5);
+  DigitalInput storedLimitSwitch = new DigitalInput(9 );
   DigitalInput extendedLimitSwitch = new DigitalInput(4);
 
   DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
